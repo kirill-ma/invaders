@@ -7,6 +7,7 @@ Created on Thu Nov  8 2018
 
 import cv2, random
 import numpy as np
+import colorsys
 
 squareSize = 50     #pixels
 dimension = 7       #Canvas in blocks
@@ -19,10 +20,13 @@ colorHalfLine = []
 
 while 1:
     def generateColor():
-        return random.choice([(random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)), (0,0,0)])
-    
+        color_rgb = [c * 255 for c in colorsys.hls_to_rgb(hue, random.gauss(0.5,0.2), random.gauss(1,0.2))]
+        return random.choice([color_rgb, (0,0,0)])
+
     def drawSquare(img, _x, _y, size, color):
         cv2.rectangle(img, (_x * size, _y * size), (_x * size + size, _y * size + size), color, -1)
+
+    hue = random.random()
     
     for y in range(dimension - padding*2):
         for square in range((dimension - 1) // 2):
